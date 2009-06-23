@@ -4,5 +4,8 @@ all:: timelib.c
 clean::
 	rm -rf *.so build/ dist/
 
+sdist:: timelib.c
+	python setup.py build sdist
+
 %.c: %.pyx
 	cython $< -o $@
