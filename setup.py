@@ -12,7 +12,7 @@ setup(name='timelib',
       description="Parse about any English textual datetime description",
       author='Ralf Schmitt',
       author_email='schmir@gmail.com',
-      url="",
+      url="http://github.com/schmir/timelib/tree/master",
       ext_modules=[Extension("timelib", sources=sources)],
       include_dirs=[".",  "ext-date-lib"], 
      )
