@@ -32,7 +32,7 @@ cdef extern from "timelib.h":
 
     timelib_tzdb *timelib_builtin_db()
     
-    void timelib_update_ts(timelib_time* time, timelib_tzinfo* tzi)
+    void timelib_update_ts(timelib_time*, timelib_tzinfo* tzi)
     void timelib_fill_holes(timelib_time *parsed, timelib_time *now, int options)
     void timelib_update_from_sse(timelib_time *tm)
     timelib_time * timelib_time_ctor()
@@ -41,8 +41,7 @@ cdef extern from "timelib.h":
     void timelib_unixtime2gmt(timelib_time *tm, long ts)
     void timelib_unixtime2local(timelib_time *tm, long ts)
     
-
-def strtotime(char *s, now=None):
+cdef timelib_time *strtotimelib_time(char *s, now=None):
     cdef timelib_time *t = NULL
     cdef timelib_time *tm_now = NULL
     
@@ -67,13 +66,18 @@ def strtotime(char *s, now=None):
     
     cdef int error=0
     timelib_update_ts(t, NULL)
-    retval = t.sse
-    #    retval = timelib_date_to_int(t, &error)
-    if error:
-        raise RuntimeError("error occured")
-    
-    
-    timelib_time_dtor(t)
     timelib_time_dtor(tm_now)
-    
+    return t
+
+def strtodatetime(char *s, now=None):
+    import datetime
+    cdef timelib_time *t
+    t=strtotimelib_time(s, now)
+    return datetime.datetime(t.y, t.m, t.d, t.h, t.i, t.s)
+
+def strtotime(char *s, now=None):
+    cdef timelib_time *t
+    t=strtotimelib_time(s, now)
+    retval = t.sse
+    timelib_time_dtor(t)
     return retval
