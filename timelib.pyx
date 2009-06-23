@@ -67,7 +67,8 @@ def strtotime(char *s, now=None):
     
     cdef int error=0
     timelib_update_ts(t, NULL)
-    retval = timelib_date_to_int(t, &error)
+    retval = t.sse
+    #    retval = timelib_date_to_int(t, &error)
     if error:
         raise RuntimeError("error occured")
     
