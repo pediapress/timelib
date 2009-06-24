@@ -1,6 +1,8 @@
 import datetime
 import time
 
+version = "0.2"
+version_info = (0,2)
         
 cdef extern from "timelib.h":
     struct timelib_rel_time:
