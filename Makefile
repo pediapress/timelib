@@ -4,6 +4,9 @@ all:: timelib.c
 clean::
 	rm -rf *.so build/ dist/
 
+install:: timelib.c
+	python setup.py build install
+
 sdist:: timelib.c
 	python setup.py build sdist
 
