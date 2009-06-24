@@ -3,3 +3,6 @@ build/
 /timelib.c
 /ID
 dist/
+*.pyc
+timelib.egg-info/
+MANIFEST
