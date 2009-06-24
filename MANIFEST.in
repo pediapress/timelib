@@ -2,3 +2,5 @@ include *.c
 include *.h
 include *.re
 include ext-date-lib/*
+include *.pyx
+include Makefile
