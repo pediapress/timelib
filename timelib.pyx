@@ -18,8 +18,15 @@ cdef extern from "timelib.h":
     struct timelib_tzdb:
         pass
     
+    struct timelib_error_message:
+           char *message
+           int position
+           int character
+
     struct timelib_error_container:
-        pass
+        int error_count
+        timelib_error_message *error_messages
+
 
     struct timelib_tzinfo:
         pass
@@ -27,6 +34,7 @@ cdef extern from "timelib.h":
     long timelib_date_to_int(timelib_time *d, int *error)
 
     void timelib_time_dtor(timelib_time* t)
+    void timelib_error_container_dtor(timelib_error_container *)
     
     timelib_time *timelib_strtotime(char *s, int len, timelib_error_container **errors, timelib_tzdb *tzdb)
 
@@ -41,12 +49,30 @@ cdef extern from "timelib.h":
     void timelib_unixtime2gmt(timelib_time *tm, long ts)
     void timelib_unixtime2local(timelib_time *tm, long ts)
     
-cdef timelib_time *strtotimelib_time(char *s, now=None):
+def _raise_error(description):
+    raise ValueError(description)
+
+cdef timelib_time *strtotimelib_time(char *s, now=None) except NULL:
     cdef timelib_time *t = NULL
     cdef timelib_time *tm_now = NULL
-    
-    t = timelib_strtotime(s, len(s), NULL, timelib_builtin_db())
+    cdef timelib_error_container *error = NULL
 
+    t = timelib_strtotime(s, len(s), &error, timelib_builtin_db())
+
+    if error and error.error_count:
+        timelib_time_dtor(t)
+        
+        msg = str(error.error_messages[0].message)
+        msg += " (while parsing date %r)" % (s, )
+        
+        _raise_error(msg)
+        timelib_error_container_dtor(error)
+        return NULL
+    
+    if error: # warnings we don't care about
+        timelib_error_container_dtor(error)
+        error = NULL
+        
     if now is None:
         now = int(time.time())
     else:
@@ -60,11 +86,10 @@ cdef timelib_time *strtotimelib_time(char *s, now=None):
     timelib_unixtime2gmt(tm_now, now)
     # timelib_unixtime2local(tm_now, now)
     
-
+    
     
     timelib_fill_holes(t, tm_now, 0)
     
-    cdef int error=0
     timelib_update_ts(t, NULL)
     timelib_time_dtor(tm_now)
     return t
@@ -73,7 +98,12 @@ def strtodatetime(char *s, now=None):
     import datetime
     cdef timelib_time *t
     t=strtotimelib_time(s, now)
-    return datetime.datetime(t.y, t.m, t.d, t.h, t.i, t.s)
+
+    retval = datetime.datetime(t.y, t.m, t.d, t.h, t.i, t.s)
+    if t:
+         timelib_time_dtor(t)
+
+    return retval
 
 def strtotime(char *s, now=None):
     cdef timelib_time *t
