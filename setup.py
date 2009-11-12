@@ -26,5 +26,6 @@ setup(name='timelib',
       ext_modules=[Extension("timelib", sources=sources)],
       include_dirs=[".",  "ext-date-lib"],
       long_description=read_long_description(),
+      license="zlib/php",
       **extra
      )
