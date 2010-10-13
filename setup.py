@@ -18,7 +18,7 @@ sources = ["ext-date-lib/"+x for x in sources]
 sources.append("timelib.c")
 
 setup(name='timelib',
-      version='0.2.1',
+      version='0.2.2',
       description="parse english textual date descriptions",
       author='Ralf Schmitt',
       author_email='schmir@gmail.com',
