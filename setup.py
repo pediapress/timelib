@@ -10,7 +10,7 @@ except ImportError:
     extra = dict()
     
 def read_long_description():
-    fn = os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.txt")
+    fn = os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.rst")
     return open(fn).read()
     
 sources = "astro.c dow.c parse_date.c parse_tz.c timelib.c tm2unixtime.c unixtime2tm.c".split()
