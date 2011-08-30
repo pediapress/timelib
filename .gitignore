@@ -6,3 +6,5 @@ dist/
 *.pyc
 timelib.egg-info/
 MANIFEST
+/.tox/
+__pycache__/

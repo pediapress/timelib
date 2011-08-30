@@ -17,6 +17,10 @@ sources = "astro.c dow.c parse_date.c parse_tz.c timelib.c tm2unixtime.c unixtim
 sources = ["ext-date-lib/"+x for x in sources]
 sources.append("timelib.c")
 
+if not os.path.exists("timelib.c"):
+    os.system("cython timelib.pyx")
+
+
 setup(name='timelib',
       version='0.2.2',
       description="parse english textual date descriptions",
