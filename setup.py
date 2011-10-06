@@ -10,6 +10,12 @@ except ImportError:
     from distutils.extension import Extension
     extra = dict()
 
+from distutils import sysconfig
+if sysconfig.get_config_var("LIBM") == "-lm":
+    libraries = ["m"]
+else:
+    libraries = []
+
 
 def read_long_description():
     fn = os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.rst")
@@ -29,6 +35,7 @@ setup(name='timelib',
       author_email='ralf@systemexit.de',
       url="https://github.com/pediapress/timelib/",
       ext_modules=[Extension("timelib", sources=sources,
+                             libraries=libraries,
                              define_macros=[('HAVE_STRING_H', 1)])],
       include_dirs=[".",  "ext-date-lib"],
       long_description=read_long_description(),
