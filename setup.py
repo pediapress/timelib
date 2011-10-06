@@ -29,7 +29,7 @@ if not os.path.exists("timelib.c"):
     os.system("cython timelib.pyx")
 
 setup(name='timelib',
-      version='0.2.2',
+      version='0.2.3',
       description="parse english textual date descriptions",
       author='Ralf Schmitt',
       author_email='ralf@systemexit.de',
