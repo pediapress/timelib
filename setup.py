@@ -16,28 +16,24 @@ if sysconfig.get_config_var("LIBM") == "-lm":
 else:
     libraries = []
 
-
-def read_long_description():
-    fn = os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.rst")
-    return open(fn).read()
-
-sources = "astro.c dow.c parse_date.c parse_tz.c timelib.c tm2unixtime.c unixtime2tm.c".split()
-sources = ["ext-date-lib/" + x for x in sources]
-sources.append("timelib.c")
+sources = ["ext-date-lib/astro.c", "ext-date-lib/dow.c",
+           "ext-date-lib/parse_date.c", "ext-date-lib/parse_tz.c",
+           "ext-date-lib/timelib.c", "ext-date-lib/tm2unixtime.c",
+           "ext-date-lib/unixtime2tm.c", "timelib.c"]
 
 if not os.path.exists("timelib.c"):
     os.system("cython timelib.pyx")
 
-setup(name='timelib',
-      version='0.2.3',
+setup(name="timelib",
+      version="0.2.4",
       description="parse english textual date descriptions",
-      author='Ralf Schmitt',
-      author_email='ralf@systemexit.de',
+      author="Ralf Schmitt",
+      author_email="ralf@systemexit.de",
       url="https://github.com/pediapress/timelib/",
       ext_modules=[Extension("timelib", sources=sources,
                              libraries=libraries,
-                             define_macros=[('HAVE_STRING_H', 1)])],
-      include_dirs=[".",  "ext-date-lib"],
-      long_description=read_long_description(),
+                             define_macros=[("HAVE_STRING_H", 1)])],
+      include_dirs=[".", "ext-date-lib"],
+      long_description=open("README.rst").read(),
       license="zlib/php",
       **extra)

@@ -1,11 +1,12 @@
 #! /usr/bin/env py.test
 
-import timelib
-import py
+import py, timelib
+
 
 def test_bad_date():
-    py.test.raises(ValueError, timelib.strtotime,  "2007-09-27PM EDT")
+    py.test.raises(ValueError, timelib.strtotime, "2007-09-27PM EDT")
+
 
 def test_epoch():
     d = timelib.strtotime("1970-01-01")
-    assert d==0, "epoch should be 0"
+    assert d == 0, "epoch should be 0"
