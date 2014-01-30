@@ -1,0 +1,13 @@
+Source: timelib
+Maintainer: asert-dev@arbor.net
+Section: python
+Priority: optional
+Build-Depends:  debhelper (>= 7.4.3), python-setuptools, cython, python-dev
+Standards-Version: 3.9.1
+
+Package: python-timelib
+Architecture: any
+Depends: ${misc:Depends}, ${python:Depends}
+Description: timelib is a short wrapper around php's internal timelib module.
+ It currently only provides a few functions. timelib.strtodatetime and timelib.strtotime.
+
