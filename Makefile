@@ -15,3 +15,6 @@ ext-date-lib/parse_date.c: ext-date-lib/parse_date.re
 
 %.c: %.pyx
 	cython $< -o $@
+
+sdist-upload:: sdist
+	python setup.py build sdist upload -r pypi
