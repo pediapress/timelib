@@ -1,8 +1,8 @@
 
 import time, datetime
 
-version = "0.2.4"
-version_info = (0, 2, 4)
+version = "0.3.0"
+version_info = (0, 3, 0)
 
 cdef extern from "timelib.h":
     struct timelib_rel_time:
@@ -95,10 +95,10 @@ cdef timelib_time *strtotimelib_time(char *s, now=None) except NULL:
     return t
 
 
-def strtodatetime(char *s, now=None):
+def strtodatetime(str s, now=None):
     import datetime
     cdef timelib_time *t
-    t = strtotimelib_time(s, now)
+    t = strtotimelib_time(s.encode('UTF-8'), now)
 
     retval = datetime.datetime(t.y, t.m, t.d, t.h, t.i, t.s)
     if t:
@@ -107,9 +107,9 @@ def strtodatetime(char *s, now=None):
     return retval
 
 
-def strtotime(char *s, now=None):
+def strtotime(str s, now=None):
     cdef timelib_time *t
-    t = strtotimelib_time(s, now)
+    t = strtotimelib_time(s.encode('UTF-8'), now)
     retval = t.sse
     timelib_time_dtor(t)
     return retval
