@@ -6,13 +6,13 @@ It currently only provides a few functions:
 
 timelib.strtodatetime:
 
->>> timelib.strtodatetime('today')
+>>> timelib.strtodatetime("today")
 datetime.datetime(2009, 6, 23, 0, 0)
->>> timelib.strtodatetime('today')
+>>> timelib.strtodatetime("today")
 datetime.datetime(2009, 6, 23, 0, 0)
->>> timelib.strtodatetime('next friday')
+>>> timelib.strtodatetime("next friday")
 datetime.datetime(2009, 6, 26, 0, 0)
->>> timelib.strtodatetime('29 feb 2008 -108 years')
+>>> timelib.strtodatetime("29 feb 2008 -108 years")
 datetime.datetime(1900, 3, 1, 0, 0)
 
 timelib.strtotime:
@@ -24,6 +24,19 @@ timelib.strtotime:
 'Tue Jun 23 11:17:38 2009'
 >>> time.ctime(timelib.strtotime("20080229 -1 year"))
 'Thu Mar  1 01:00:00 2007'
+
+
+Build
+=====
+To build timelib, first create a virtual environment, then run the following command:
+
+    pip install --upgrade build pip
+    python -m build
+
+Alternatively, you can install Cython locally and run the Makefile:
+
+    pip install Cython
+    make all
 
 License
 =======
