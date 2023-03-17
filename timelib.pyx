@@ -1,5 +1,6 @@
 import time
 import datetime
+from typing import Union
 
 version = "0.3.0"
 version_info = (0, 3, 0)
@@ -91,9 +92,12 @@ cdef timelib_time *strtotimelib_time(char *s, now=None) except NULL:
     return t
 
 
-def strtodatetime(char *s, now=None):
+def strtodatetime(s: Union[bytes, str], now=None):
     """Convert a string to a datetime object."""
     cdef timelib_time *t
+
+    if isinstance(s, str):
+        s = s.encode('UTF-8')
     t = strtotimelib_time(s, now)
 
     retval = datetime.datetime(t.y, t.m, t.d, t.h, t.i, t.s)
@@ -103,9 +107,12 @@ def strtodatetime(char *s, now=None):
     return retval
 
 
-def strtotime(char *s, now=None):
+def strtotime(s: Union[bytes, str], now=None):
     """Convert a string to a unix timestamp."""
     cdef timelib_time *t
+
+    if isinstance(s, str):
+        s = s.encode('UTF-8')
     t = strtotimelib_time(s, now)
     retval = t.sse
     timelib_time_dtor(t)
