@@ -21,7 +21,7 @@ def test_epoch_plus_one():
 
 def test_today():
     d = timelib.strtodatetime("today")
-    assert d == datetime.today().replace(
+    assert d == datetime.utcnow().replace(
         hour=0, minute=0, second=0, microsecond=0
     ), "DateTime should be today"
 
