@@ -1,5 +1,5 @@
-
-import time, datetime
+import time
+import datetime
 
 version = "0.3.0"
 version_info = (0, 3, 0)
@@ -64,8 +64,8 @@ cdef timelib_time *strtotimelib_time(char *s, now=None) except NULL:
     if error and error.error_count:
         timelib_time_dtor(t)
 
-        msg = str(error.error_messages[0].message)
-        msg += " (while parsing date %r)" % (s, )
+        msg = error.error_messages[0].message.decode('UTF-8')
+        msg += " (while parsing date {!r})".format(s)
 
         _raise_error(msg)
         timelib_error_container_dtor(error)
@@ -82,11 +82,7 @@ cdef timelib_time *strtotimelib_time(char *s, now=None) except NULL:
 
     tm_now = timelib_time_ctor()
 
-    # tm_now.sse = now
-    # timelib_update_from_sse(tm_now)
-
     timelib_unixtime2gmt(tm_now, now)
-    # timelib_unixtime2local(tm_now, now)
 
     timelib_fill_holes(t, tm_now, 0)
 
@@ -95,10 +91,10 @@ cdef timelib_time *strtotimelib_time(char *s, now=None) except NULL:
     return t
 
 
-def strtodatetime(str s, now=None):
-    import datetime
+def strtodatetime(char *s, now=None):
+    """Convert a string to a datetime object."""
     cdef timelib_time *t
-    t = strtotimelib_time(s.encode('UTF-8'), now)
+    t = strtotimelib_time(s, now)
 
     retval = datetime.datetime(t.y, t.m, t.d, t.h, t.i, t.s)
     if t:
@@ -107,9 +103,10 @@ def strtodatetime(str s, now=None):
     return retval
 
 
-def strtotime(str s, now=None):
+def strtotime(char *s, now=None):
+    """Convert a string to a unix timestamp."""
     cdef timelib_time *t
-    t = strtotimelib_time(s.encode('UTF-8'), now)
+    t = strtotimelib_time(s, now)
     retval = t.sse
     timelib_time_dtor(t)
     return retval
