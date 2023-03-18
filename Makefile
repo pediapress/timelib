@@ -2,7 +2,7 @@ all:: timelib.c
 	python setup.py build
 
 clean::
-	rm -rf *.so build/ dist/
+	rm -rf *.so build/ dist/ ./timelib.c ./timelib.egg-info/ .tox/ .pytest_cache cython_debug/ .mypy_cache
 
 install:: timelib.c
 	python setup.py build install

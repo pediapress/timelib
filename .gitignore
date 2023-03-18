@@ -8,3 +8,6 @@ timelib.egg-info/
 MANIFEST
 /.tox/
 __pycache__/
+.pytest_cache
+cython_debug
+.mypy_cache
