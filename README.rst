@@ -30,14 +30,14 @@ Build
 =====
 To build timelib, first create a virtual environment, then run the following command:
 
-.. code-block:: bash
+.. code-block::
     pip install --upgrade build pip
     python -m build
 
 
 Alternatively, you can install Cython locally and run the Makefile:
 
-.. code-block:: bash
+.. code-block::
     pip install Cython
     make all
 
