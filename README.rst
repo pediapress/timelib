@@ -30,11 +30,13 @@ Build
 =====
 To build timelib, first create a virtual environment, then run the following command:
 
+.. code-block:: bash
     pip install --upgrade build pip
     python -m build
 
 Alternatively, you can install Cython locally and run the Makefile:
 
+.. code-block:: bash
     pip install Cython
     make all
 
@@ -46,7 +48,7 @@ distribution. These are distributed under the `php license`_, version
 
 The remaining part is distributed under the zlib/libpng license:
 
-Copyright (c) 2009-2011 PediaPress GmbH
+Copyright (c) 2009-2023 PediaPress GmbH
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
